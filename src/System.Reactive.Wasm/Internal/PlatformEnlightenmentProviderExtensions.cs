@@ -5,7 +5,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text;
+
+[assembly: InternalsVisibleTo("System.Reactive.Wasm.Tests")]
 
 namespace System.Reactive.PlatformServices
 {
@@ -18,13 +22,13 @@ namespace System.Reactive.PlatformServices
         /// Sets the <see cref="PlatformEnlightenmentProvider.Current"/> to the <see cref="WasmPlatformEnlightenmentProvider"/> one.
         /// </summary>
         /// <param name="provider">The provider. This parameter is ignored.</param>
-#pragma warning disable IDE0060
+        [SuppressMessage("Design", "CS0618", Justification = "Intentional")]
         public static void EnableWasm(this IPlatformEnlightenmentProvider provider)
-#pragma warning restore IDE0060 // Remove unused parameter
         {
-#pragma warning disable CS0618 // Type or member is obsolete
-            PlatformEnlightenmentProvider.Current = new WasmPlatformEnlightenmentProvider();
-#pragma warning restore CS0618 // Type or member is obsolete
+            if (!(PlatformEnlightenmentProvider.Current is WasmPlatformEnlightenmentProvider))
+            {
+                PlatformEnlightenmentProvider.Current = new WasmPlatformEnlightenmentProvider();
+            }
         }
     }
 }

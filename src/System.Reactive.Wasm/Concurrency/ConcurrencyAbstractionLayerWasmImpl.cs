@@ -5,6 +5,7 @@
 
 using System.Collections.Generic;
 using System.Reactive.Disposables;
+using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace System.Reactive.Concurrency
@@ -18,7 +19,8 @@ namespace System.Reactive.Concurrency
         public bool SupportsLongRunning => false;
 
         /// <inheritdoc />
-        public IDisposable StartTimer(Action<object> action, object state, TimeSpan dueTime) => new Timer(action, state, Normalize(dueTime));
+        public IDisposable StartTimer(Action<object> action, object state, TimeSpan dueTime) =>
+            new Timer(action, state, Normalize(dueTime));
 
         /// <inheritdoc />
         public IDisposable StartPeriodicTimer(Action action, TimeSpan period)
